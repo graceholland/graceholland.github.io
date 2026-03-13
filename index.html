@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grace Holland — Marketing & Content Strategist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0e0c;
+    --surface: #161614;
+    --card: #1c1c19;
+    --border: #2a2a26;
+    --accent: #c8f060;        /* electric lime */
+    --accent2: #f0c860;       /* warm gold */
+    --accent3: #60d4f0;       /* sky */
+    --text: #f0ede6;
+    --muted: #8a887e;
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'DM Sans', sans-serif;
+    --mono: 'DM Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1000;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(14,14,12,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  .nav-links a:hover { color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 8rem 3rem 4rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(200,240,96,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-text { max-width: 560px; }
+
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 0.2s forwards;
+  }
+
+  .hero-name {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-weight: 900;
+    line-height: 0.95;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.4s forwards;
+  }
+
+  .hero-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-bio {
+    font-size: 1.05rem;
+    color: var(--muted);
+    max-width: 440px;
+    line-height: 1.7;
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.6s forwards;
+  }
+
+  .hero-bio strong { color: var(--text); font-weight: 500; }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 0.7s ease 0.8s forwards;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    border-radius: 2px;
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 500;
+  }
+
+  .btn-primary:hover {
+    background: #d9ff70;
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--text);
+    border: 1px solid var(--border);
+  }
+
+  .btn-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Hero right — stats */
+  .hero-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    opacity: 0;
+    animation: fadeIn 1s ease 1s forwards;
+    align-self: center;
+    justify-self: end;
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .stat-card {
+    background: var(--card);
+    padding: 2rem 1.75rem;
+    transition: background 0.2s;
+  }
+
+  .stat-card:hover { background: #222220; }
+
+  .stat-number {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--accent);
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── ADVENTURE STRIP ── */
+  .adventure-strip {
+    background: var(--accent);
+    padding: 1rem 3rem;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .marquee {
+    display: flex;
+    gap: 3rem;
+    white-space: nowrap;
+    animation: marquee 25s linear infinite;
+  }
+
+  .marquee-item {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bg);
+    flex-shrink: 0;
+  }
+
+  .marquee-dot {
+    color: rgba(14,14,12,0.4);
+    margin: 0 1rem;
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── SECTIONS ── */
+  section {
+    padding: 7rem 3rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .section-label::after {
+    content: '';
+    height: 1px;
+    width: 40px;
+    background: var(--accent);
+    display: inline-block;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+
+  .section-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .section-sub {
+    color: var(--muted);
+    max-width: 520px;
+    font-size: 1rem;
+    margin-bottom: 3.5rem;
+    line-height: 1.7;
+  }
+
+  /* ── WORK GRID ── */
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .work-card {
+    background: var(--card);
+    padding: 2.25rem 2rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.25s;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  .work-card:hover { background: #202020; }
+  .work-card:hover::before { transform: scaleX(1); }
+
+  .work-card.featured {
+    grid-column: span 2;
+  }
+
+  .work-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(200,240,96,0.25);
+    display: inline-block;
+    align-self: flex-start;
+  }
+
+  .work-title {
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+    line-height: 1.25;
+  }
+
+  .work-desc {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 1.25rem;
+    flex: 1;
+  }
+
+  .work-meta {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--border);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    margin-top: auto;
+    color: var(--muted);
+  }
+
+  /* ── BRAND SHOWCASE ── */
+  .brand-showcase {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 4rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+
+  .brand-sidebar {
+    position: sticky;
+    top: 8rem;
+  }
+
+  .brand-sidebar p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+  }
+
+  .color-swatches {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .swatch {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    position: relative;
+  }
+
+  .swatch-label {
+    position: absolute;
+    bottom: -1.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.5rem;
+    white-space: nowrap;
+    color: var(--muted);
+  }
+
+  .brand-items {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .brand-item {
+    background: var(--card);
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: center;
+    transition: background 0.2s;
+  }
+
+  .brand-item:hover { background: #202020; }
+
+  .brand-item-num {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--border);
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+
+  .brand-item-title {
+    font-family: var(--serif);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.35rem;
+  }
+
+  .brand-item-desc {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── IMPACT NUMBERS ── */
+  .impact-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    margin-top: 1rem;
+  }
+
+  .impact-cell {
+    background: var(--card);
+    padding: 2.5rem 2rem;
+    text-align: center;
+  }
+
+  .impact-num {
+    font-family: var(--serif);
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .impact-num.lime { color: var(--accent); }
+  .impact-num.gold { color: var(--accent2); }
+  .impact-num.sky  { color: var(--accent3); }
+  .impact-num.white { color: var(--text); }
+
+  .impact-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SKILLS ── */
+  .skills-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+  }
+
+  .skill-group-title {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .skill-pill {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+  }
+
+  .skill-pill:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* ── ADVENTURE ── */
+  .adventure-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .adventure-card {
+    background: var(--card);
+    padding: 2rem 1.75rem;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .adventure-card:hover { background: #202020; }
+
+  .adventure-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .adventure-title {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+
+  .adventure-desc {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CONTACT ── */
+  .contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .contact-headline {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+  }
+
+  .contact-headline em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .contact-link {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem 1.5rem;
+    background: var(--card);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    font-size: 0.9rem;
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    background: #202020;
+  }
+
+  .contact-link-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.1rem;
+  }
+
+  .contact-link-value {
+    font-size: 0.9rem;
+    color: var(--text);
+  }
+
+  .contact-link-arrow {
+    margin-left: auto;
+    color: var(--muted);
+    transition: transform 0.2s, color 0.2s;
+  }
+
+  .contact-link:hover .contact-link-arrow {
+    transform: translateX(4px);
+    color: var(--accent);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 2rem 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  footer p {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ── DIVIDER ── */
+  .full-divider {
+    height: 1px;
+    background: var(--border);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Grace Holland</a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#brand">Brand</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-text">
+    <p class="hero-eyebrow">Marketing · Content · Brand Strategy</p>
+    <h1 class="hero-name">Grace<br><em>Holland.</em></h1>
+    <p class="hero-bio">
+      I build brands from the ground up — <strong>from voice and identity to the campaigns that make people stop scrolling.</strong> Community manager, content strategist, and outdoor enthusiast based in Oklahoma City. Currently pursuing an MBA at OU.
+    </p>
+    <div class="hero-cta">
+      <a href="#work" class="btn btn-primary">View My Work →</a>
+      <a href="#contact" class="btn btn-ghost">Get in Touch</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-card">
+      <div class="stat-number">4+</div>
+      <div class="stat-label">Years Experience</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">15.2K</div>
+      <div class="stat-label">TikTok Followers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">4.5M</div>
+      <div class="stat-label">Views, One Post</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">43</div>
+      <div class="stat-label">States Explored</div>
+    </div>
+  </div>
+</div>
+
+<!-- ADVENTURE MARQUEE STRIP -->
+<div class="adventure-strip">
+  <div class="marquee">
+    <!-- doubled for seamless loop -->
+    <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
+    <!-- duplicate -->
+    <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
+    <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work">
+  <div class="section-label">Selected Work</div>
+  <h2 class="section-title">Things I've <em>Built.</em></h2>
+  <p class="section-sub">Real work for real organizations — from a biotech incubator built from scratch to viral social content and events that fill rooms.</p>
+
+  <div class="work-grid reveal">
+    <div class="work-card featured">
+      <span class="work-tag">Brand Strategy + Design</span>
+      <h3 class="work-title">OKBioStart Brand & Style Guide</h3>
+      <p class="work-desc">Created the complete brand identity for OKBioStart — a life science incubator launched in 2023. Developed the logo system, color palette (#3E009F, #AD00C3, #40B3C6), typography hierarchy using Arboria, brand voice, and messaging framework. This guide became the foundation for all print, digital, and event materials across the organization.</p>
+      <div class="work-meta">OKBioStart · 2024 · Brand Identity · Style Guide · Creative Direction</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Content Production</span>
+      <h3 class="work-title">2024 Milestones & Impact Report</h3>
+      <p class="work-desc">Authored and designed the organization's annual impact report — communicating $675K in awards, 452 community members reached, and 4 startups created or supported to stakeholders and funders.</p>
+      <div class="work-meta">OKBioStart · Annual Report · Copywriting + Design</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Event Marketing</span>
+      <h3 class="work-title">Bio Innovation Night 2026</h3>
+      <p class="work-desc">Wrote and distributed the media advisory for OKBioStart's flagship annual event, coordinating press outreach for 10 featured portfolio companies and inviting media to cover Oklahoma City's emerging biotech ecosystem.</p>
+      <div class="work-meta">OKBioStart · Jan 2026 · PR + Media Relations</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Event Production</span>
+      <h3 class="work-title">Translational Research Retreat</h3>
+      <p class="work-desc">Designed and marketed a full-day Life Science Business Fundamentals Workshop in partnership with OU Health Stephenson Cancer Center — featuring speakers from BMW i Ventures, Centivax, and Hogan Lovells.</p>
+      <div class="work-meta">OKBioStart · Sept 2025 · Event Design + Marketing</div>
+    </div>
+
+    <div class="work-card featured">
+      <span class="work-tag">Community Building</span>
+      <h3 class="work-title">OKBioStart Community Program</h3>
+      <p class="work-desc">Planned and executed the Community Program from the ground up — organizing bi-monthly events across Norman, OKC, and Stillwater for life science professionals. Grew attendance to 452+ individuals in year one, building a network connecting academia, corporate, government, and entrepreneurial ecosystems. Personally presented the program to prospective participants and partners.</p>
+      <div class="work-meta">OKBioStart · 2024–Present · Community Strategy · Event Planning · Public Speaking</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Collateral Design</span>
+      <h3 class="work-title">Hiring Flyer & Recruitment Materials</h3>
+      <p class="work-desc">Designed recruitment materials for the OKBioStart Fellowship Program — Concept and Marketing Fellow roles — creating clean, on-brand print and digital collateral that extended the brand voice to talent acquisition.</p>
+      <div class="work-meta">OKBioStart · Design + Copywriting</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Startup Marketing</span>
+      <h3 class="work-title">ENTANGO Launch & Fundraising</h3>
+      <p class="work-desc">Co-founded ENTANGO and led all marketing from concept to launch. Raised $20,000 through pitch competitions, produced all creative assets in Adobe Creative Suite, and grew the platform to 700+ users through on-campus distribution and social media campaigns.</p>
+      <div class="work-meta">ENTANGO · 2020–2022 · Co-Founder · $20K Raised</div>
+    </div>
+
+    <div class="work-card">
+      <span class="work-tag">Social Media</span>
+      <h3 class="work-title">Viral TikTok Content</h3>
+      <p class="work-desc">Grew a personal TikTok channel to 15.2K followers and produced 4 viral content pieces — including one video that reached 4.5 million views. Strategy rooted in Gen Z cultural insight, trending sounds, and authentic storytelling.</p>
+      <div class="work-meta">Personal · 15.2K Followers · 4.5M Views</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- IMPACT -->
+<section>
+  <div class="section-label">By the Numbers</div>
+  <h2 class="section-title">The <em>Impact.</em></h2>
+  <div class="impact-row reveal">
+    <div class="impact-cell">
+      <div class="impact-num lime">452+</div>
+      <div class="impact-label">Community Members Engaged</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num gold">$675K</div>
+      <div class="impact-label">Funding Supported</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num sky">4.5M</div>
+      <div class="impact-label">Video Views (Single Post)</div>
+    </div>
+    <div class="impact-cell">
+      <div class="impact-num white">$20K</div>
+      <div class="impact-label">Raised via Pitch Competitions</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- BRAND GUIDE BREAKDOWN -->
+<section id="brand">
+  <div class="section-label">Brand Work</div>
+  <h2 class="section-title">Brand <em>Identity.</em></h2>
+  <p class="section-sub">Building a brand from zero means making every decision — from the colors that feel right to the words that make people trust you. Here's what went into OKBioStart.</p>
+
+  <div class="brand-showcase reveal">
+    <div class="brand-sidebar">
+      <p>OKBioStart launched in 2023 with no existing brand identity. I developed everything — visual language, voice, messaging, and the guidelines to keep it consistent as the team grew.</p>
+      <p>The brand needed to feel both scientific and approachable, innovative but not intimidating. The result: bold typography, a confident purple-forward palette, and a voice that's described as "confident, smart, helpful, and quick to innovate."</p>
+      <div style="margin-top:1.5rem;">
+        <div class="skill-group-title">Brand Colors</div>
+        <div class="color-swatches" style="position:relative; padding-bottom:1.5rem;">
+          <div class="swatch" style="background:#3E009F;"><span class="swatch-label">#3E009F</span></div>
+          <div class="swatch" style="background:#AD00C3;"><span class="swatch-label">#AD00C3</span></div>
+          <div class="swatch" style="background:#40B3C6;"><span class="swatch-label">#40B3C6</span></div>
+          <div class="swatch" style="background:#000000; border-color:#444;"><span class="swatch-label">#000000</span></div>
+          <div class="swatch" style="background:#FFFFFF;"><span class="swatch-label">#FFFFFF</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="brand-items">
+      <div class="brand-item">
+        <div class="brand-item-num">01</div>
+        <div>
+          <div class="brand-item-title">Logo System</div>
+          <div class="brand-item-desc">Developed primary and secondary logo variants with four approved background treatments — black, purple, magenta, and white. Established clear-space rules and a favicon mark for digital use.</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <div class="brand-item-num">02</div>
+        <div>
+          <div class="brand-item-title">Typography Hierarchy</div>
+          <div class="brand-item-desc">Selected Arboria (Book Black + Light variants) as the primary typeface — modern and scientific without feeling cold. Established clear usage rules for headlines, body copy, and sub-headings.</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <div class="brand-item-num">03</div>
+        <div>
+          <div class="brand-item-title">Brand Voice & Messaging</div>
+          <div class="brand-item-desc">Defined brand voice as "confident, smart, helpful, inviting, collaborative, clear, quick to innovate." Articulated 10 brand values and 10 emotional feelings the brand should evoke in every stakeholder interaction.</div>
+        </div>
+      </div>
+      <div class="brand-item">
+        <div class="brand-item-num">04</div>
+        <div>
+          <div class="brand-item-title">Collateral & Templates</div>
+          <div class="brand-item-desc">Applied the brand across letterhead, event flyers, presentation decks, one-pagers, media advisories, hiring materials, and the 2024 Impact Report — maintaining visual consistency across all 8+ document types.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">Capabilities</div>
+  <h2 class="section-title">What I <em>Do.</em></h2>
+  <p class="section-sub">Broad enough to own a channel end-to-end. Deep enough to lead a brand.</p>
+
+  <div class="skills-layout reveal">
+    <div>
+      <div class="skill-group-title">Marketing & Strategy</div>
+      <ul class="skill-list">
+        <li class="skill-pill">Brand Development</li>
+        <li class="skill-pill">Content Strategy</li>
+        <li class="skill-pill">Community Building</li>
+        <li class="skill-pill">Email Marketing</li>
+        <li class="skill-pill">Campaign Planning</li>
+        <li class="skill-pill">PR & Media Relations</li>
+        <li class="skill-pill">Event Planning</li>
+        <li class="skill-pill">Copywriting</li>
+        <li class="skill-pill">Social Media Strategy</li>
+      </ul>
+
+      <div class="skill-group-title">Design & Production</div>
+      <ul class="skill-list">
+        <li class="skill-pill">Adobe InDesign</li>
+        <li class="skill-pill">Adobe Illustrator</li>
+        <li class="skill-pill">Adobe Photoshop</li>
+        <li class="skill-pill">Figma</li>
+        <li class="skill-pill">Procreate</li>
+        <li class="skill-pill">Variable Data Merge</li>
+        <li class="skill-pill">Wix CMS</li>
+      </ul>
+    </div>
+
+    <div>
+      <div class="skill-group-title">Platforms & Tools</div>
+      <ul class="skill-list">
+        <li class="skill-pill">TikTok</li>
+        <li class="skill-pill">Instagram</li>
+        <li class="skill-pill">LinkedIn</li>
+        <li class="skill-pill">Facebook</li>
+        <li class="skill-pill">Notion</li>
+        <li class="skill-pill">Microsoft Office</li>
+      </ul>
+
+      <div class="skill-group-title">Soft Skills</div>
+      <ul class="skill-list">
+        <li class="skill-pill">Public Speaking</li>
+        <li class="skill-pill">Team Leadership</li>
+        <li class="skill-pill">Entrepreneurship</li>
+        <li class="skill-pill">Sales</li>
+        <li class="skill-pill">Spanish (Conversational)</li>
+        <li class="skill-pill">Stakeholder Relations</li>
+        <li class="skill-pill">Problem Solving</li>
+      </ul>
+
+      <div class="skill-group-title">Education</div>
+      <ul class="skill-list">
+        <li class="skill-pill">MBA Candidate · OU 2027</li>
+        <li class="skill-pill">VP Marketing · Grad Women in Business</li>
+        <li class="skill-pill">BA Public Relations · OU</li>
+        <li class="skill-pill">Minor: Entrepreneurship</li>
+        <li class="skill-pill">GPA 3.7 · Dean's List</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- ABOUT / ADVENTURE -->
+<section id="about">
+  <div class="section-label">Beyond the Brief</div>
+  <h2 class="section-title">Life <em>Outside</em> the Office.</h2>
+  <p class="section-sub">The best marketers understand people. And people are found outside — on trails, at events, in communities. That's where I spend my time when I'm not building brands.</p>
+
+  <div class="adventure-grid reveal">
+    <div class="adventure-card">
+      <span class="adventure-icon">⛰️</span>
+      <div class="adventure-title">Rock Climbing</div>
+      <div class="adventure-desc">Finding the route, trusting the process, staying calm under pressure. Sounds like brand strategy too.</div>
+    </div>
+    <div class="adventure-card">
+      <span class="adventure-icon">🎿</span>
+      <div class="adventure-title">Skiing</div>
+      <div class="adventure-desc">Committing to the line before you can see where it goes. A skill that transfers remarkably well to creative work.</div>
+    </div>
+    <div class="adventure-card">
+      <span class="adventure-icon">🥾</span>
+      <div class="adventure-title">Hiking</div>
+      <div class="adventure-desc">43 U.S. states and counting. Every trail is a new community, a new landscape, a new story to tell.</div>
+    </div>
+    <div class="adventure-card">
+      <span class="adventure-icon">⚽</span>
+      <div class="adventure-title">Soccer</div>
+      <div class="adventure-desc">Team sport. Fast decisions. Reading the field before the play develops. Classic marketing.</div>
+    </div>
+    <div class="adventure-card">
+      <span class="adventure-icon">🧘</span>
+      <div class="adventure-title">Yoga & Pilates</div>
+      <div class="adventure-desc">Intentional movement, intentional living. Showing up consistently is the work.</div>
+    </div>
+    <div class="adventure-card">
+      <span class="adventure-icon">🗺️</span>
+      <div class="adventure-title">Relentless Travel</div>
+      <div class="adventure-desc">43 states. Always planning the next one. Curiosity isn't a hobby — it's a way of operating.</div>
+    </div>
+  </div>
+</section>
+
+<div class="full-divider"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-layout reveal">
+    <div>
+      <div class="section-label">Let's Connect</div>
+      <h2 class="contact-headline">Building something<br><em>worth talking about?</em></h2>
+      <p style="color:var(--muted); margin-top:1.25rem; max-width:380px; font-size:0.95rem; line-height:1.7;">I'm open to creative collaborations, content strategy work, and roles where building community and brand from scratch is the job.</p>
+    </div>
+    <div class="contact-links">
+      <a href="mailto:graceemeryholland@gmail.com" class="contact-link">
+        <div>
+          <div class="contact-link-label">Email</div>
+          <div class="contact-link-value">graceemeryholland@gmail.com</div>
+        </div>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a href="tel:4055056768" class="contact-link">
+        <div>
+          <div class="contact-link-label">Phone</div>
+          <div class="contact-link-value">(405) 505-6768</div>
+        </div>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a href="https://www.linkedin.com/in/grace-holland-8940401a3/" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">LinkedIn</div>
+          <div class="contact-link-value">Grace Holland</div>
+        </div>
+        <span class="contact-link-arrow">→</span>
+      </a>
+      <a href="https://graceemeryholland.wixsite.com/mysitee" target="_blank" class="contact-link">
+        <div>
+          <div class="contact-link-label">Current Website</div>
+          <div class="contact-link-value">graceemeryholland.wixsite.com</div>
+        </div>
+        <span class="contact-link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Grace Holland · Oklahoma City, OK</p>
+  <p>Marketing & Content Strategist · MBA Candidate · Outdoor Enthusiast</p>
+</footer>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        // Stagger children
+        const children = e.target.querySelectorAll('.work-card, .impact-cell, .skill-pill, .adventure-card, .brand-item');
+        children.forEach((c, i) => {
+          c.style.transitionDelay = `${i * 0.05}s`;
+          c.style.opacity = '0';
+          c.style.transform = 'translateY(12px)';
+          c.style.transition = `opacity 0.5s ease ${i * 0.05}s, transform 0.5s ease ${i * 0.05}s`;
+          setTimeout(() => {
+            c.style.opacity = '1';
+            c.style.transform = 'none';
+          }, 50);
+        });
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
