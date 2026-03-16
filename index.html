@@ -12,9 +12,9 @@
     --surface: #161614;
     --card: #1c1c19;
     --border: #2a2a26;
-    --accent: #c8f060;        /* electric lime */
-    --accent2: #f0c860;       /* warm gold */
-    --accent3: #60d4f0;       /* sky */
+    --accent: #c8f060;
+    --accent2: #f0c860;
+    --accent3: #60d4f0;
     --text: #f0ede6;
     --muted: #8a887e;
     --serif: 'Playfair Display', Georgia, serif;
@@ -23,9 +23,7 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--bg);
     color: var(--text);
@@ -35,7 +33,6 @@
     overflow-x: hidden;
   }
 
-  /* ── NOISE TEXTURE OVERLAY ── */
   body::before {
     content: '';
     position: fixed;
@@ -50,12 +47,12 @@
   nav {
     position: fixed;
     top: 0; left: 0; right: 0;
-    z-index: 100;
+    z-index: 200;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.25rem 3rem;
-    background: rgba(14,14,12,0.85);
+    background: rgba(14,14,12,0.9);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
@@ -87,6 +84,61 @@
 
   .nav-links a:hover { color: var(--accent); }
 
+  /* Hamburger */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 24px;
+    height: 1.5px;
+    background: var(--text);
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  .nav-toggle.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile nav drawer */
+  .mobile-nav {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(14,14,12,0.98);
+    z-index: 190;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-nav.open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .mobile-nav a {
+    font-family: var(--serif);
+    font-size: 2.5rem;
+    font-style: italic;
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .mobile-nav a:hover { color: var(--accent); }
+
   /* ── HERO ── */
   .hero {
     min-height: 100vh;
@@ -96,6 +148,7 @@
     padding: 8rem 3rem 4rem;
     position: relative;
     overflow: hidden;
+    gap: 3rem;
   }
 
   .hero::after {
@@ -124,7 +177,7 @@
 
   .hero-name {
     font-family: var(--serif);
-    font-size: clamp(3.5rem, 6vw, 6rem);
+    font-size: clamp(3rem, 6vw, 6rem);
     font-weight: 900;
     line-height: 0.95;
     margin-bottom: 1.5rem;
@@ -132,10 +185,7 @@
     animation: fadeUp 0.7s ease 0.4s forwards;
   }
 
-  .hero-name em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  .hero-name em { font-style: italic; color: var(--accent); }
 
   .hero-bio {
     font-size: 1.05rem;
@@ -173,29 +223,11 @@
     transition: all 0.2s;
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: var(--bg);
-    font-weight: 500;
-  }
+  .btn-primary { background: var(--accent); color: var(--bg); font-weight: 500; }
+  .btn-primary:hover { background: #d9ff70; transform: translateY(-1px); }
+  .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--border); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
-  .btn-primary:hover {
-    background: #d9ff70;
-    transform: translateY(-1px);
-  }
-
-  .btn-ghost {
-    background: transparent;
-    color: var(--text);
-    border: 1px solid var(--border);
-  }
-
-  .btn-ghost:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-
-  /* Hero right — stats */
   .hero-stats {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -214,6 +246,7 @@
     background: var(--card);
     padding: 2rem 1.75rem;
     transition: background 0.2s;
+    cursor: default;
   }
 
   .stat-card:hover { background: #222220; }
@@ -235,19 +268,26 @@
     color: var(--muted);
   }
 
-  /* ── ADVENTURE STRIP ── */
+  /* ── MARQUEE STRIP ── */
   .adventure-strip {
     background: var(--accent);
-    padding: 1rem 3rem;
+    padding: 1rem 0;
     overflow: hidden;
     position: relative;
   }
 
-  .marquee {
+  .marquee-track {
     display: flex;
-    gap: 3rem;
-    white-space: nowrap;
+    width: max-content;
     animation: marquee 25s linear infinite;
+  }
+
+  .marquee-track:hover { animation-play-state: paused; }
+
+  .marquee-inner {
+    display: flex;
+    gap: 0;
+    white-space: nowrap;
   }
 
   .marquee-item {
@@ -257,13 +297,11 @@
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--bg);
+    padding: 0 1.5rem;
     flex-shrink: 0;
   }
 
-  .marquee-dot {
-    color: rgba(14,14,12,0.4);
-    margin: 0 1rem;
-  }
+  .marquee-dot { color: rgba(14,14,12,0.35); }
 
   @keyframes marquee {
     0% { transform: translateX(0); }
@@ -305,10 +343,7 @@
     margin-bottom: 1rem;
   }
 
-  .section-title em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  .section-title em { font-style: italic; color: var(--accent); }
 
   .section-sub {
     color: var(--muted);
@@ -316,6 +351,35 @@
     font-size: 1rem;
     margin-bottom: 3.5rem;
     line-height: 1.7;
+  }
+
+  /* ── WORK FILTER ── */
+  .work-filters {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 1px;
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(200,240,96,0.06);
   }
 
   /* ── WORK GRID ── */
@@ -333,7 +397,7 @@
     cursor: pointer;
     position: relative;
     overflow: hidden;
-    transition: background 0.25s;
+    transition: background 0.25s, opacity 0.35s, transform 0.35s;
     display: flex;
     flex-direction: column;
   }
@@ -352,8 +416,12 @@
   .work-card:hover { background: #202020; }
   .work-card:hover::before { transform: scaleX(1); }
 
-  .work-card.featured {
-    grid-column: span 2;
+  .work-card.featured { grid-column: span 2; }
+
+  .work-card.hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px);
   }
 
   .work-tag {
@@ -390,10 +458,98 @@
     font-size: 0.65rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--border);
+    color: var(--muted);
     border-top: 1px solid var(--border);
     padding-top: 1rem;
     margin-top: auto;
+  }
+
+  /* ── WORK MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(8,8,6,0.85);
+    z-index: 300;
+    backdrop-filter: blur(6px);
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+
+  .modal-overlay.open {
+    display: flex;
+    opacity: 1;
+  }
+
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    max-width: 620px;
+    width: 100%;
+    padding: 3rem;
+    position: relative;
+    transform: translateY(20px);
+    transition: transform 0.25s ease;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+
+  .modal-overlay.open .modal { transform: translateY(0); }
+
+  .modal-close {
+    position: absolute;
+    top: 1.25rem; right: 1.25rem;
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 0.35rem 0.65rem;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .modal-close:hover { border-color: var(--accent); color: var(--accent); }
+
+  .modal-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid rgba(200,240,96,0.25);
+    display: inline-block;
+  }
+
+  .modal-title {
+    font-family: var(--serif);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .modal-body {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.75;
+    margin-bottom: 1.5rem;
+  }
+
+  .modal-meta {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--border);
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
     color: var(--muted);
   }
 
@@ -422,6 +578,8 @@
     display: flex;
     gap: 0.5rem;
     margin-top: 1rem;
+    padding-bottom: 1.5rem;
+    position: relative;
   }
 
   .swatch {
@@ -430,7 +588,11 @@
     border-radius: 50%;
     border: 1px solid var(--border);
     position: relative;
+    cursor: pointer;
+    transition: transform 0.2s;
   }
+
+  .swatch:hover { transform: scale(1.2); }
 
   .swatch-label {
     position: absolute;
@@ -484,7 +646,7 @@
     line-height: 1.6;
   }
 
-  /* ── IMPACT NUMBERS ── */
+  /* ── IMPACT ── */
   .impact-row {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -508,9 +670,9 @@
     margin-bottom: 0.5rem;
   }
 
-  .impact-num.lime { color: var(--accent); }
-  .impact-num.gold { color: var(--accent2); }
-  .impact-num.sky  { color: var(--accent3); }
+  .impact-num.lime  { color: var(--accent); }
+  .impact-num.gold  { color: var(--accent2); }
+  .impact-num.sky   { color: var(--accent3); }
   .impact-num.white { color: var(--text); }
 
   .impact-label {
@@ -555,11 +717,13 @@
     color: var(--muted);
     letter-spacing: 0.05em;
     transition: all 0.2s;
+    cursor: default;
   }
 
   .skill-pill:hover {
     border-color: var(--accent);
     color: var(--accent);
+    background: rgba(200,240,96,0.05);
   }
 
   /* ── ADVENTURE ── */
@@ -576,6 +740,7 @@
     padding: 2rem 1.75rem;
     text-align: center;
     transition: background 0.2s;
+    cursor: default;
   }
 
   .adventure-card:hover { background: #202020; }
@@ -584,7 +749,10 @@
     font-size: 2rem;
     margin-bottom: 1rem;
     display: block;
+    transition: transform 0.3s ease;
   }
+
+  .adventure-card:hover .adventure-icon { transform: scale(1.2) rotate(-5deg); }
 
   .adventure-title {
     font-family: var(--serif);
@@ -614,10 +782,7 @@
     line-height: 1.05;
   }
 
-  .contact-headline em {
-    font-style: italic;
-    color: var(--accent);
-  }
+  .contact-headline em { font-style: italic; color: var(--accent); }
 
   .contact-links {
     display: flex;
@@ -635,13 +800,9 @@
     text-decoration: none;
     color: var(--text);
     transition: all 0.2s;
-    font-size: 0.9rem;
   }
 
-  .contact-link:hover {
-    border-color: var(--accent);
-    background: #202020;
-  }
+  .contact-link:hover { border-color: var(--accent); background: #202020; }
 
   .contact-link-label {
     font-family: var(--mono);
@@ -652,10 +813,7 @@
     margin-bottom: 0.1rem;
   }
 
-  .contact-link-value {
-    font-size: 0.9rem;
-    color: var(--text);
-  }
+  .contact-link-value { font-size: 0.9rem; color: var(--text); }
 
   .contact-link-arrow {
     margin-left: auto;
@@ -663,10 +821,7 @@
     transition: transform 0.2s, color 0.2s;
   }
 
-  .contact-link:hover .contact-link-arrow {
-    transform: translateX(4px);
-    color: var(--accent);
-  }
+  .contact-link:hover .contact-link-arrow { transform: translateX(4px); color: var(--accent); }
 
   /* ── FOOTER ── */
   footer {
@@ -677,6 +832,8 @@
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   footer p {
@@ -697,28 +854,127 @@
     to   { opacity: 1; }
   }
 
-  /* Scroll reveal */
   .reveal {
     opacity: 0;
     transform: translateY(24px);
     transition: opacity 0.7s ease, transform 0.7s ease;
   }
 
-  .reveal.visible {
-    opacity: 1;
-    transform: none;
-  }
+  .reveal.visible { opacity: 1; transform: none; }
 
-  /* ── DIVIDER ── */
   .full-divider {
     height: 1px;
     background: var(--border);
     max-width: 1200px;
     margin: 0 auto;
   }
+
+  /* ══════════════════════════════════
+     MOBILE RESPONSIVE — 768px & below
+  ══════════════════════════════════ */
+  @media (max-width: 900px) {
+    .work-grid { grid-template-columns: 1fr 1fr; }
+    .work-card.featured { grid-column: span 2; }
+    .brand-showcase { grid-template-columns: 1fr; gap: 2rem; }
+    .brand-sidebar { position: static; }
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+
+    .nav-links { display: none; }
+
+    .nav-toggle { display: flex; }
+
+    .hero {
+      grid-template-columns: 1fr;
+      padding: 6rem 1.5rem 3rem;
+      min-height: auto;
+      gap: 2.5rem;
+    }
+
+    .hero::after { display: none; }
+
+    .hero-stats {
+      justify-self: stretch;
+      max-width: 100%;
+    }
+
+    .hero-name { font-size: clamp(2.8rem, 11vw, 5rem); }
+    .hero-bio { font-size: 0.95rem; }
+
+    .adventure-strip { padding: 0.75rem 0; }
+
+    section { padding: 4rem 1.5rem; }
+
+    .section-title { font-size: clamp(1.8rem, 8vw, 3rem); }
+
+    .work-filters { gap: 0.4rem; }
+    .filter-btn { font-size: 0.6rem; padding: 0.35rem 0.8rem; }
+
+    .work-grid {
+      grid-template-columns: 1fr;
+      border: none;
+      background: transparent;
+      gap: 1px;
+    }
+
+    .work-card.featured { grid-column: span 1; }
+
+    .work-grid .work-card {
+      border: 1px solid var(--border);
+    }
+
+    .impact-row {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .brand-showcase { grid-template-columns: 1fr; gap: 2rem; }
+    .brand-sidebar { position: static; }
+
+    .skills-layout { grid-template-columns: 1fr; gap: 0; }
+
+    .adventure-grid { grid-template-columns: 1fr 1fr; }
+
+    .contact-layout {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .contact-link-value { font-size: 0.8rem; }
+
+    footer { padding: 1.5rem; flex-direction: column; text-align: center; }
+
+    .modal { padding: 2rem 1.5rem; margin: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-name { font-size: clamp(2.5rem, 13vw, 4rem); }
+    .hero-cta { flex-direction: column; }
+    .btn { width: 100%; justify-content: center; }
+
+    .adventure-grid { grid-template-columns: 1fr; }
+
+    .impact-row { grid-template-columns: 1fr 1fr; }
+
+    .stat-number { font-size: 2.2rem; }
+    .stat-card { padding: 1.5rem 1.25rem; }
+
+    .impact-num { font-size: 2.2rem; }
+    .impact-cell { padding: 1.75rem 1rem; }
+  }
 </style>
 </head>
 <body>
+
+<!-- MOBILE NAV DRAWER -->
+<div class="mobile-nav" id="mobileNav">
+  <a href="#work" onclick="closeMobileNav()">Work</a>
+  <a href="#brand" onclick="closeMobileNav()">Brand</a>
+  <a href="#skills" onclick="closeMobileNav()">Skills</a>
+  <a href="#about" onclick="closeMobileNav()">About</a>
+  <a href="#contact" onclick="closeMobileNav()">Contact</a>
+</div>
 
 <!-- NAV -->
 <nav>
@@ -730,6 +986,9 @@
     <li><a href="#about">About</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
 <!-- HERO -->
@@ -748,19 +1007,19 @@
 
   <div class="hero-stats">
     <div class="stat-card">
-      <div class="stat-number">4+</div>
+      <div class="stat-number" data-count="4" data-suffix="+">0</div>
       <div class="stat-label">Years Experience</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">15.2K</div>
+      <div class="stat-number" data-count="15.2" data-suffix="K">0</div>
       <div class="stat-label">TikTok Followers</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">4.5M</div>
+      <div class="stat-number" data-count="4.5" data-suffix="M">0</div>
       <div class="stat-label">Views, One Post</div>
     </div>
     <div class="stat-card">
-      <div class="stat-number">43</div>
+      <div class="stat-number" data-count="43" data-suffix="">0</div>
       <div class="stat-label">States Explored</div>
     </div>
   </div>
@@ -768,33 +1027,34 @@
 
 <!-- ADVENTURE MARQUEE STRIP -->
 <div class="adventure-strip">
-  <div class="marquee">
-    <!-- doubled for seamless loop -->
-    <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Chess Strategist</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
-    <!-- duplicate -->
-    <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Chess Strategist</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
-    <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
+  <div class="marquee-track">
+    <div class="marquee-inner">
+      <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Chess Strategist</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
+      <!-- duplicate for seamless loop -->
+      <span class="marquee-item">Hiker</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Chess Strategist</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Rock Climber</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Skier</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Yoga</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Pilates</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Soccer</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">43 States & Counting</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Brand Builder</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Content Creator</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">Community Manager</span><span class="marquee-dot">✦</span>
+      <span class="marquee-item">MBA Candidate @ OU</span><span class="marquee-dot">✦</span>
+    </div>
   </div>
 </div>
 
@@ -804,57 +1064,67 @@
   <h2 class="section-title">Things I've <em>Built.</em></h2>
   <p class="section-sub">Real work for real organizations, from a biotech incubator built from scratch to viral social content and events that fill rooms.</p>
 
-  <div class="work-grid reveal">
-    <div class="work-card featured">
+  <!-- Filter Buttons -->
+  <div class="work-filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="brand">Brand</button>
+    <button class="filter-btn" data-filter="event">Events</button>
+    <button class="filter-btn" data-filter="content">Content</button>
+    <button class="filter-btn" data-filter="community">Community</button>
+    <button class="filter-btn" data-filter="startup">Startup</button>
+  </div>
+
+  <div class="work-grid reveal" id="workGrid">
+    <div class="work-card featured" data-category="brand" data-title="OKBioStart Brand & Style Guide" data-tag="Brand Strategy + Design" data-desc="Created the complete brand identity for OKBioStart, a life science incubator launched in 2023. Developed the logo system, color palette (#3E009F, #AD00C3, #40B3C6), typography hierarchy using Arboria, brand voice, and messaging framework. This guide became the foundation for all print, digital, and event materials across the organization." data-meta="OKBioStart · 2024 · Brand Identity · Style Guide · Creative Direction">
       <span class="work-tag">Brand Strategy + Design</span>
       <h3 class="work-title">OKBioStart Brand & Style Guide</h3>
       <p class="work-desc">Created the complete brand identity for OKBioStart, a life science incubator launched in 2023. Developed the logo system, color palette (#3E009F, #AD00C3, #40B3C6), typography hierarchy using Arboria, brand voice, and messaging framework. This guide became the foundation for all print, digital, and event materials across the organization.</p>
       <div class="work-meta">OKBioStart · 2024 · Brand Identity · Style Guide · Creative Direction</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="content" data-title="2024 Milestones & Impact Report" data-tag="Content Production" data-desc="Authored and designed the organization's annual impact report — communicating $675K in awards, 452 community members reached, and 4 startups created or supported to stakeholders and funders." data-meta="OKBioStart · Annual Report · Copywriting + Design">
       <span class="work-tag">Content Production</span>
       <h3 class="work-title">2024 Milestones & Impact Report</h3>
-      <p class="work-desc">Authored and designed the organization's annual impact report — communicating $675K in awards, 852+ community members reached, and 4 startups created or supported to stakeholders and funders.</p>
+      <p class="work-desc">Authored and designed the organization's annual impact report — communicating $675K in awards, 452 community members reached, and 4 startups created or supported to stakeholders and funders.</p>
       <div class="work-meta">OKBioStart · Annual Report · Copywriting + Design</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="event" data-title="Bio Innovation Night 2026" data-tag="Event Marketing" data-desc="Wrote and distributed the media advisory for OKBioStart's flagship annual event, coordinating press outreach for 10 featured portfolio companies and inviting media to cover Oklahoma City's emerging biotech ecosystem." data-meta="OKBioStart · Jan 2026 · PR + Media Relations">
       <span class="work-tag">Event Marketing</span>
       <h3 class="work-title">Bio Innovation Night 2026</h3>
       <p class="work-desc">Wrote and distributed the media advisory for OKBioStart's flagship annual event, coordinating press outreach for 10 featured portfolio companies and inviting media to cover Oklahoma City's emerging biotech ecosystem.</p>
       <div class="work-meta">OKBioStart · Jan 2026 · PR + Media Relations</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="event" data-title="Translational Research Retreat" data-tag="Event Production" data-desc="Designed and marketed a full-day Life Science Business Fundamentals Workshop in partnership with OU Health Stephenson Cancer Center — featuring speakers from BMW i Ventures, Centivax, and Hogan Lovells." data-meta="OKBioStart · Sept 2025 · Event Design + Marketing">
       <span class="work-tag">Event Production</span>
       <h3 class="work-title">Translational Research Retreat</h3>
       <p class="work-desc">Designed and marketed a full-day Life Science Business Fundamentals Workshop in partnership with OU Health Stephenson Cancer Center — featuring speakers from BMW i Ventures, Centivax, and Hogan Lovells.</p>
       <div class="work-meta">OKBioStart · Sept 2025 · Event Design + Marketing</div>
     </div>
 
-    <div class="work-card featured">
+    <div class="work-card featured" data-category="community" data-title="OKBioStart Community Program" data-tag="Community Building" data-desc="Planned and executed the Community Program from the ground up — organizing bi-monthly events across Norman, OKC, and Stillwater for life science professionals. Grew attendance to 452+ individuals in year one, building a network connecting academia, corporate, government, and entrepreneurial ecosystems. Personally presented the program to prospective participants and partners." data-meta="OKBioStart · 2024–Present · Community Strategy · Event Planning · Public Speaking">
       <span class="work-tag">Community Building</span>
       <h3 class="work-title">OKBioStart Community Program</h3>
-      <p class="work-desc">Planned and executed the Community Program from the ground up — organizing bi-monthly events across Norman, OKC, and Stillwater for life science professionals. Grew attendance to 452+ individuals in year one, building a network connecting academia, corporate, government, and entrepreneurial ecosystems. Personally presented the program to prospective participants and partners.</p>
+      <p class="work-desc">Planned and executed the Community Program from the ground up — organizing bi-monthly events across Norman, OKC, and Stillwater for life science professionals. Grew attendance to 452+ individuals in year one, building a network connecting academia, corporate, government, and entrepreneurial ecosystems.</p>
       <div class="work-meta">OKBioStart · 2024–Present · Community Strategy · Event Planning · Public Speaking</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="brand" data-title="Hiring Flyer & Recruitment Materials" data-tag="Collateral Design" data-desc="Designed recruitment materials for the OKBioStart Fellowship Program — Concept and Marketing Fellow roles — creating clean, on-brand print and digital collateral that extended the brand voice to talent acquisition." data-meta="OKBioStart · Design + Copywriting">
       <span class="work-tag">Collateral Design</span>
       <h3 class="work-title">Hiring Flyer & Recruitment Materials</h3>
       <p class="work-desc">Designed recruitment materials for the OKBioStart Fellowship Program — Concept and Marketing Fellow roles — creating clean, on-brand print and digital collateral that extended the brand voice to talent acquisition.</p>
       <div class="work-meta">OKBioStart · Design + Copywriting</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="startup" data-title="ENTANGO Launch & Fundraising" data-tag="Startup Marketing" data-desc="Co-founded ENTANGO and led all marketing from concept to launch. Raised $20,000 through pitch competitions, produced all creative assets in Adobe Creative Suite, and grew the platform to 700+ users through on-campus distribution and social media campaigns." data-meta="ENTANGO · 2020–2022 · Co-Founder · $20K Raised">
       <span class="work-tag">Startup Marketing</span>
       <h3 class="work-title">ENTANGO Launch & Fundraising</h3>
       <p class="work-desc">Co-founded ENTANGO and led all marketing from concept to launch. Raised $20,000 through pitch competitions, produced all creative assets in Adobe Creative Suite, and grew the platform to 700+ users through on-campus distribution and social media campaigns.</p>
       <div class="work-meta">ENTANGO · 2020–2022 · Co-Founder · $20K Raised</div>
     </div>
 
-    <div class="work-card">
+    <div class="work-card" data-category="content" data-title="Viral TikTok Content" data-tag="Social Media" data-desc="Grew a personal TikTok channel to 15.2K followers and produced 4 viral content pieces — including one video that reached 4.5 million views. Strategy rooted in Gen Z cultural insight, trending sounds, and authentic storytelling." data-meta="Personal · 15.2K Followers · 4.5M Views">
       <span class="work-tag">Social Media</span>
       <h3 class="work-title">Viral TikTok Content</h3>
       <p class="work-desc">Grew a personal TikTok channel to 15.2K followers and produced 4 viral content pieces — including one video that reached 4.5 million views. Strategy rooted in Gen Z cultural insight, trending sounds, and authentic storytelling.</p>
@@ -862,6 +1132,17 @@
     </div>
   </div>
 </section>
+
+<!-- WORK MODAL -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">✕ Close</button>
+    <div class="modal-tag" id="modalTag"></div>
+    <h2 class="modal-title" id="modalTitle"></h2>
+    <p class="modal-body" id="modalBody"></p>
+    <div class="modal-meta" id="modalMeta"></div>
+  </div>
+</div>
 
 <div class="full-divider"></div>
 
@@ -871,19 +1152,19 @@
   <h2 class="section-title">The <em>Impact.</em></h2>
   <div class="impact-row reveal">
     <div class="impact-cell">
-      <div class="impact-num lime">452+</div>
+      <div class="impact-num lime" data-count="452" data-suffix="+">452+</div>
       <div class="impact-label">Community Members Engaged</div>
     </div>
     <div class="impact-cell">
-      <div class="impact-num gold">$675K</div>
+      <div class="impact-num gold" data-count="675" data-prefix="$" data-suffix="K">$675K</div>
       <div class="impact-label">Funding Supported</div>
     </div>
     <div class="impact-cell">
-      <div class="impact-num sky">4.5M</div>
+      <div class="impact-num sky" data-count="4.5" data-suffix="M">4.5M</div>
       <div class="impact-label">Video Views (Single Post)</div>
     </div>
     <div class="impact-cell">
-      <div class="impact-num white">$20K</div>
+      <div class="impact-num white" data-count="20" data-prefix="$" data-suffix="K">$20K</div>
       <div class="impact-label">Raised via Pitch Competitions</div>
     </div>
   </div>
@@ -891,7 +1172,7 @@
 
 <div class="full-divider"></div>
 
-<!-- BRAND GUIDE BREAKDOWN -->
+<!-- BRAND -->
 <section id="brand">
   <div class="section-label">Brand Work</div>
   <h2 class="section-title">Brand <em>Identity.</em></h2>
@@ -903,12 +1184,12 @@
       <p>The brand needed to feel both scientific and approachable, innovative but not intimidating. The result: bold typography, a confident purple-forward palette, and a voice that's described as "confident, smart, helpful, and quick to innovate."</p>
       <div style="margin-top:1.5rem;">
         <div class="skill-group-title">Brand Colors</div>
-        <div class="color-swatches" style="position:relative; padding-bottom:1.5rem;">
-          <div class="swatch" style="background:#3E009F;"><span class="swatch-label">#3E009F</span></div>
-          <div class="swatch" style="background:#AD00C3;"><span class="swatch-label">#AD00C3</span></div>
-          <div class="swatch" style="background:#40B3C6;"><span class="swatch-label">#40B3C6</span></div>
-          <div class="swatch" style="background:#000000; border-color:#444;"><span class="swatch-label">#000000</span></div>
-          <div class="swatch" style="background:#FFFFFF;"><span class="swatch-label">#FFFFFF</span></div>
+        <div class="color-swatches">
+          <div class="swatch" style="background:#3E009F;" title="#3E009F"><span class="swatch-label">#3E009F</span></div>
+          <div class="swatch" style="background:#AD00C3;" title="#AD00C3"><span class="swatch-label">#AD00C3</span></div>
+          <div class="swatch" style="background:#40B3C6;" title="#40B3C6"><span class="swatch-label">#40B3C6</span></div>
+          <div class="swatch" style="background:#000000; border-color:#444;" title="#000000"><span class="swatch-label">#000000</span></div>
+          <div class="swatch" style="background:#FFFFFF;" title="#FFFFFF"><span class="swatch-label">#FFFFFF</span></div>
         </div>
       </div>
     </div>
@@ -968,7 +1249,6 @@
         <li class="skill-pill">Copywriting</li>
         <li class="skill-pill">Social Media Strategy</li>
       </ul>
-
       <div class="skill-group-title">Design & Production</div>
       <ul class="skill-list">
         <li class="skill-pill">Adobe InDesign</li>
@@ -980,7 +1260,6 @@
         <li class="skill-pill">Wix CMS</li>
       </ul>
     </div>
-
     <div>
       <div class="skill-group-title">Platforms & Tools</div>
       <ul class="skill-list">
@@ -991,7 +1270,6 @@
         <li class="skill-pill">Notion</li>
         <li class="skill-pill">Microsoft Office</li>
       </ul>
-
       <div class="skill-group-title">Soft Skills</div>
       <ul class="skill-list">
         <li class="skill-pill">Public Speaking</li>
@@ -1002,7 +1280,6 @@
         <li class="skill-pill">Stakeholder Relations</li>
         <li class="skill-pill">Problem Solving</li>
       </ul>
-
       <div class="skill-group-title">Education</div>
       <ul class="skill-list">
         <li class="skill-pill">MBA Candidate · OU 2027</li>
@@ -1017,7 +1294,7 @@
 
 <div class="full-divider"></div>
 
-<!-- ABOUT / ADVENTURE -->
+<!-- ABOUT -->
 <section id="about">
   <div class="section-label">Beyond the Brief</div>
   <h2 class="section-title">Life <em>Outside</em> the Office.</h2>
@@ -1088,9 +1365,6 @@
           <div class="contact-link-value">Grace Holland</div>
         </div>
         <span class="contact-link-arrow">→</span>
-        <div>
-        </div>
-        <span class="contact-link-arrow">→</span>
       </a>
     </div>
   </div>
@@ -1102,15 +1376,29 @@
 </footer>
 
 <script>
-  // Scroll reveal
+  /* ── MOBILE NAV ── */
+  const navToggle = document.getElementById('navToggle');
+  const mobileNav = document.getElementById('mobileNav');
+
+  navToggle.addEventListener('click', () => {
+    const isOpen = mobileNav.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  function closeMobileNav() {
+    mobileNav.classList.remove('open');
+    navToggle.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ── SCROLL REVEAL ── */
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => {
       if (e.isIntersecting) {
         e.target.classList.add('visible');
-        // Stagger children
         const children = e.target.querySelectorAll('.work-card, .impact-cell, .skill-pill, .adventure-card, .brand-item');
         children.forEach((c, i) => {
-          c.style.transitionDelay = `${i * 0.05}s`;
           c.style.opacity = '0';
           c.style.transform = 'translateY(12px)';
           c.style.transition = `opacity 0.5s ease ${i * 0.05}s, transform 0.5s ease ${i * 0.05}s`;
@@ -1124,6 +1412,93 @@
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── COUNT-UP FOR HERO STATS ── */
+  function animateCount(el) {
+    const target = parseFloat(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    const isDecimal = target % 1 !== 0;
+    const duration = 1400;
+    const start = performance.now();
+
+    function update(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = target * eased;
+      el.textContent = (isDecimal ? current.toFixed(1) : Math.floor(current)) + suffix;
+      if (progress < 1) requestAnimationFrame(update);
+    }
+
+    requestAnimationFrame(update);
+  }
+
+  // Trigger count-up when hero is visible (on load since it's above the fold)
+  const heroStats = document.querySelectorAll('.stat-number[data-count]');
+  let statsCounted = false;
+
+  function checkHeroVisible() {
+    if (!statsCounted && document.querySelector('.hero-stats')) {
+      statsCounted = true;
+      setTimeout(() => {
+        heroStats.forEach(el => animateCount(el));
+      }, 1100); // match hero animation delay
+    }
+  }
+
+  window.addEventListener('load', checkHeroVisible);
+
+  /* ── WORK FILTERS ── */
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const workCards = document.querySelectorAll('.work-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+
+      workCards.forEach(card => {
+        const match = filter === 'all' || card.dataset.category === filter;
+
+        if (match) {
+          card.classList.remove('hidden');
+          // Restore featured span on desktop only
+          if (card.classList.contains('featured') && window.innerWidth > 768) {
+            // keep featured if all showing
+          }
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+
+  /* ── WORK CARD MODAL ── */
+  const modalOverlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modal');
+  const modalClose = document.getElementById('modalClose');
+
+  workCards.forEach(card => {
+    card.addEventListener('click', () => {
+      document.getElementById('modalTag').textContent   = card.dataset.tag;
+      document.getElementById('modalTitle').textContent = card.dataset.title;
+      document.getElementById('modalBody').textContent  = card.dataset.desc;
+      document.getElementById('modalMeta').textContent  = card.dataset.meta;
+      modalOverlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', e => { if (e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
